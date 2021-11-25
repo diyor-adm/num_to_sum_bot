@@ -1,4 +1,4 @@
-from translate import to_cyrillic, to_latin
+from translate_kr import to_cyrillic, to_latin
 from num_text import num_text
 def latin_text(number):
     text = ''

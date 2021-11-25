@@ -6,13 +6,14 @@ from telegram.ext.filters import Filters
 from telegram.update import Update
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, ReplyMarkup, replymarkup
 import logging
-from googletrans import Translator
+from translate import Translator
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.DEBUG)
- 
-flag = '' 
+
+flag = ''
+text_flag = '' 
 updater = Updater(token='2107634479:AAFqg7_jASoQxjhafYAWJZ464iQNblevQ1I')
 
 def send_welcome(update: Update, context: CallbackContext):
@@ -26,24 +27,86 @@ def main_menu_keyboard():
   return InlineKeyboardMarkup(keyboard)
 
 def uzbek_latin(update: Update, context: CallbackContext):
+    global flag
+    flag = 'uz'
     update.callback_query.message.edit_text("🇺🇿 O'zbek tili tanlandi!")
+    
 def uzbek_kirill_key(update: Update, context: CallbackContext):
+    global flag
+    flag = 'uz_kr'
     update.callback_query.message.edit_text("🇺🇿 Ўзбек тили танланди!")
 def rus(update: Update, context: CallbackContext):
+    global flag
+    flag = 'ru'
     update.callback_query.message.edit_text("🇷🇺 Русский был выбран!")
 def english_key(update: Update, context: CallbackContext):
+    global flag
+    flag = 'en'
     update.callback_query.message.edit_text("🇬🇧 Language has been changed to English")
       
+def control(update: Update, context: CallbackContext):
+    args = update.effective_message.text
+    if flag == 'uz':
+        if args.isnumeric():
+            args = uz_text(args).capitalize()
+            update.message.reply_text(args)
+        else:
+            update.message.reply_text('Iltimos faqat son kiriting!')
+            return 
+    elif flag == 'uz_kr':
+        if args.isnumeric():
+            args = uz_text(args).capitalize()
+            update.message.reply_text(to_cyrillic(args))
+        else:
+            update.message.reply_text('Илтимос факат сон киритинг!')
+            return
+    elif flag == 'ru':
+        if args.isnumeric():
+            args = uz_text(args).capitalize()
+            translator= Translator(from_lang="uz",to_lang="ru")
+            translation = translator.translate(args)
+            update.message.reply_text(translation)
+        else:
+            update.message.reply_text('Пожалуйста, просто введите число')
+            return
+    elif flag == 'en':
+        if args.isnumeric():
+            args = uz_text(args).capitalize()
+            translator= Translator(from_lang="uz",to_lang="en")
+            translation = translator.translate(args)
+            update.message.reply_text(translation)
+        else:
+            update.message.reply_text('Please just enter a number')
+            return 
+    else:
+        update.message.reply_text(f'Iltimos {update.effective_user.first_name}, tilni tanlang!', reply_markup=main_menu_keyboard())
+
+
+        # if len(args)==0:
+        #     update.message.reply_text('Hech bo`lmasa bitta son yozing!')
+        # else:
+        #     javob = text_sum(args)
+        #     update.message.reply_text(javob)
+
+def text_sum(args):
+    print(args)
+    message = []
+    for i in args:
+        message +=i
+    def javob(message): return latin_text(message)
+    return javob(message)
+
+
+
+
+
 
 def about(update: Update, context: CallbackContext):
     update.message.reply_text('Ushbu bot Diyorbek Abduqodirov tomonidan ishlab chiqildi. \n@diyoradm')
 
 def uz_text(text):
-    if len(text)==0:
-        return('Hech bo`lmasa bitta son yozing!')
-    else:
-        javob = text_sum(text)
-        return javob
+    javob = text_sum(text)
+    return javob
 
 def text_sum(args):
     print(args)
@@ -68,8 +131,8 @@ def inline_query(update: Update, context: CallbackContext):
         print(text)
         with open('uz_search.txt','a') as numstxt:
             numstxt.write(text + f' - @{update.effective_user.username}\n')
-        global flag
-        flag=text
+        global text_flag
+        text_flag=text
         update.inline_query.answer([
             InlineQueryResultArticle(
                 id=text, description=f'Salom {update.effective_user.first_name}  \nMade with 🖤 by @diyoradm',
@@ -105,7 +168,7 @@ def inline_menu_keyboard():
   return InlineKeyboardMarkup(keyboard)
 adm =''
 def uzbek_kirill(update: Update, context: CallbackContext):
-    text = to_cyrillic(flag)
+    text = to_cyrillic(text_flag)
     global adm
     adm = text
     print(text)
@@ -115,7 +178,7 @@ def uzbek_kirill(update: Update, context: CallbackContext):
 
 def english(update: Update, context: CallbackContext):
     translator = Translator()
-    text = translator.translate(flag, dest='en').text
+    text = translator.translate(text_flag, dest='en').text
     global adm
     adm = text
     print(text)
@@ -125,7 +188,7 @@ def english(update: Update, context: CallbackContext):
 
 def russian(update: Update, context: CallbackContext):
     translator = Translator()
-    text = translator.translate(flag, dest='ru').text
+    text = translator.translate(text_flag, dest='ru').text
     global adm
     adm = text
     print(text)
@@ -140,9 +203,19 @@ def trans_error(update: Update, context: CallbackContext):
     update.callback_query.edit_message_text(f'Rahmat {update.effective_user.first_name}! Tez orada to`g`irlashga harakat qilamiz😊')
     with open('uncorrect.txt','a') as numstxt:
             numstxt.write( adm + f' - @{update.effective_user.username}\n')
+def select_lang(update: Update, context: CallbackContext):
+    if flag == 'ru':
+        update.message.reply_text(f'{update.effective_user.first_name} выбери нужный язык!', reply_markup=main_menu_keyboard())
+    elif flag == 'uz_kr':
+        update.message.reply_text(f'{update.effective_user.first_name} керакли тилни танланг!', reply_markup=main_menu_keyboard())
+    elif flag == 'en':
+        update.message.reply_text(f'{update.effective_user.first_name} choose the language you need!', reply_markup=main_menu_keyboard())
+    else:
+        update.message.reply_text(f'{update.effective_user.first_name} kerakli tilni tanlang!', reply_markup=main_menu_keyboard())
 dispatcher = updater.dispatcher
 dispatcher.add_handler(CommandHandler('start', send_welcome))
 dispatcher.add_handler(CommandHandler('about', about))
+dispatcher.add_handler(CommandHandler('language', select_lang))
 dispatcher.add_handler(CallbackQueryHandler(uzbek_latin, pattern='uz_latin'))
 dispatcher.add_handler(CallbackQueryHandler(uzbek_kirill, pattern='uz_kirill'))
 dispatcher.add_handler(CallbackQueryHandler(uzbek_kirill_key, pattern='uzbek_kirill_key'))
@@ -154,8 +227,7 @@ dispatcher.add_handler(CallbackQueryHandler(english_key, pattern='english_key'))
 
 dispatcher.add_handler(InlineQueryHandler(inline_query))
 
-
-dispatcher.add_handler(MessageHandler(Filters.all, error))
+dispatcher.add_handler(MessageHandler(Filters.all, control))
 
 
 
