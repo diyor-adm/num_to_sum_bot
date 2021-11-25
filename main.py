@@ -43,37 +43,41 @@ def english_key(update: Update, context: CallbackContext):
     global flag
     flag = 'en'
     update.callback_query.message.edit_text("🇬🇧 Language has been changed to English")
-      
+
+def check_num_and_convert_text(num):
+    try:
+        text = uz_text(num).capitalize()
+        return text
+    except:
+        pass
+
 def control(update: Update, context: CallbackContext):
     args = update.effective_message.text
+    text = check_num_and_convert_text(args)
     if flag == 'uz':
         if args.isnumeric():
-            args = uz_text(args).capitalize()
-            update.message.reply_text(args)
+            update.message.reply_text(text)
         else:
             update.message.reply_text('Iltimos faqat son kiriting!')
             return 
     elif flag == 'uz_kr':
         if args.isnumeric():
-            args = uz_text(args).capitalize()
-            update.message.reply_text(to_cyrillic(args))
+            update.message.reply_text(to_cyrillic(text))
         else:
             update.message.reply_text('Илтимос факат сон киритинг!')
             return
     elif flag == 'ru':
         if args.isnumeric():
-            args = uz_text(args).capitalize()
             translator= Translator(from_lang="uz",to_lang="ru")
-            translation = translator.translate(args)
+            translation = translator.translate(text)
             update.message.reply_text(translation)
         else:
             update.message.reply_text('Пожалуйста, просто введите число')
             return
     elif flag == 'en':
         if args.isnumeric():
-            args = uz_text(args).capitalize()
             translator= Translator(from_lang="uz",to_lang="en")
-            translation = translator.translate(args)
+            translation = translator.translate(text)
             update.message.reply_text(translation)
         else:
             update.message.reply_text('Please just enter a number')
@@ -88,27 +92,13 @@ def control(update: Update, context: CallbackContext):
         #     javob = text_sum(args)
         #     update.message.reply_text(javob)
 
-def text_sum(args):
-    print(args)
-    message = []
-    for i in args:
-        message +=i
-    def javob(message): return latin_text(message)
-    return javob(message)
-
-
-
-
 
 
 def about(update: Update, context: CallbackContext):
     update.message.reply_text('Ushbu bot Diyorbek Abduqodirov tomonidan ishlab chiqildi. \n@diyoradm')
 
-def uz_text(text):
-    javob = text_sum(text)
-    return javob
 
-def text_sum(args):
+def uz_text(args):
     print(args)
     message = []
     for i in args:
