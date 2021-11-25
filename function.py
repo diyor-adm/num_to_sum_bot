@@ -18,4 +18,10 @@ def latin_text(number):
 def translit(message):
     return to_cyrillic(message)
 
-
+def uz_text(args):
+    print(args)
+    message = []
+    for i in args:
+        message +=i
+    def javob(message): return latin_text(message)
+    return javob(message)
