@@ -10,7 +10,7 @@ num_text = {
         '6': 'olti',
         '7': 'yetti',
         '8': 'sakkiz',
-        '9': "to'qqiz"
+        '9': "toʻqqiz"
     },
     "2":
         {
