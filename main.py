@@ -3,7 +3,7 @@ from function import uz_text, to_cyrillic
 from telegram.ext import Updater,InlineQueryHandler, CommandHandler, dispatcher,CallbackContext, MessageHandler, CallbackQueryHandler
 from telegram.ext.filters import Filters
 from telegram.update import Update
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, ReplyMarkup, replymarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle
 import logging
 from translate import Translator
 
