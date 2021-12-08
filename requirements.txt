@@ -6,13 +6,6 @@ chardet==3.0.4
 charset-normalizer==2.0.7
 click==8.0.3
 dill==0.3.4
-google-api-core==2.2.2
-google-auth==2.3.3
-google-cloud-core==2.2.1
-google-cloud-translate==3.6.1
-google-trans-new==1.1.9
-googleapis-common-protos==1.53.0
-googletrans==4.0.0rc1
 grpcio==1.42.0
 grpcio-status==1.42.0
 h11==0.9.0
