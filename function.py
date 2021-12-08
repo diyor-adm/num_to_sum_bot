@@ -4,7 +4,9 @@ def latin_text(number):
     text = ''
     i = 0
     for num_order in range(len(number), 0, -1):
-        try: 
+        try:
+            if len(number) >= 7 and number[-7] == '0' and num_order == 7:
+                text += (num_text[str(num_order)][number[i]] + 'million ')
             if len(number) >= 4 and number[-4] == '0' and num_order == 4:
                 text += (num_text[str(num_order)][number[i]] + 'ming ')
             else:

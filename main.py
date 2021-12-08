@@ -16,7 +16,9 @@ text_flag = ''
 updater = Updater(token='2107634479:AAFqg7_jASoQxjhafYAWJZ464iQNblevQ1I')
 
 def send_welcome(update: Update, context: CallbackContext):
-   update.message.reply_text(f'Assalomu alaykum {update.effective_user.first_name}, sonlarni matn ko`rinishiga o`girib beruvchi botga xush kelibsiz😊\nSizga kerak bo`lgan tilni tanlang!', reply_markup=main_menu_keyboard())
+    global flag
+    flag = ''
+    update.message.reply_text(f'Assalomu alaykum {update.effective_user.first_name}, sonlarni matn ko`rinishiga o`girib beruvchi botga xush kelibsiz😊\nSizga kerak bo`lgan tilni tanlang!', reply_markup=main_menu_keyboard())
  
 def main_menu_keyboard():
   keyboard = [[InlineKeyboardButton("🇺🇿 O'zbekcha", callback_data='uz_latin'),

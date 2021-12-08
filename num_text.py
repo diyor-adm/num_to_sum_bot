@@ -76,6 +76,45 @@ num_text = {
         '7': 'yetti yuz',
         '8': 'sakkiz yuz',
         '9': "toʻqqiz yuz",
+    },
+    '7':
+        {
+        '0': '',
+        '1': 'bir million',
+        '2': 'ikki million',
+        '3': 'uch million',
+        '4': 'toʻrt million',
+        '5': 'besh million',
+        '6': 'olti million',
+        '7': 'yetti million',
+        '8': 'sakkiz million',
+        '9': "toʻqqiz million",
+    },
+    '8':
+        {
+        '0': '',
+        '1': "oʻn",
+        '2': 'yigirma',
+        '3': "oʻttiz",
+        '4': "qirq",
+        '5': 'ellik',
+        '6': 'oltmish',
+        '7': 'yetmish',
+        '8': 'sakson',
+        '9': "toʻqson"
+    },
+    '9':
+        {
+        '0': '',
+        '1': 'bir yuz',
+        '2': 'ikki yuz',
+        '3': 'uch yuz',
+        '4': 'toʻrt yuz',
+        '5': 'besh yuz',
+        '6': 'olti yuz',
+        '7': 'yetti yuz',
+        '8': 'sakkiz yuz',
+        '9': "toʻqqiz yuz",
     }
 
 
